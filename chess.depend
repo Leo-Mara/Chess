@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1782556421 source:c:\users\leoma\desktop\progetti\chess\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<string>
+	<windows.h>
+
+1783238996 source:c:\users\leoma\desktop\chess\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<string>
+	<windows.h>
+
