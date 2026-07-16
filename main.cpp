@@ -6,12 +6,6 @@
 #include <windows.h>
 using namespace std;
 
-/*TODO:
--TOGLI IF(1)!!!
--arrocco
--promozione pedone !!!
-*/
-
 //Bianchi: ♙♖♘♗♕♔  □ \xE2\x96\xA1
 string pezziBianchi[6] = {"♙", "♖", "♘", "♗", "♕", "♔"};
 
@@ -25,218 +19,6 @@ int muoviPezzo(char posDaMuovere[], char posArrivo[]);
 int isReachable(int x, int y);
 
 //Strutture
-struct pedone{
-    string pezzo;
-    int x;
-    int y;
-    int primaMossa=1;
-    int move(int xN, int yN, string scacc[][8], int turno){
-
-        if( turno==0 ){
-        //TURNO BIANCO======================================================
-            if( xN==x && yN==y ){
-                printf("\nStessa posizione della partenza.\n\n");
-                return -2;
-            }
-
-            //Non puoi non andare avanti
-            if( yN==y ){
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            //Non può andare più indietro di dov'è
-            if( y<yN ){
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            //Se si sposta di più di 1 in verticale da errore
-            if( abs(yN-y)>1+primaMossa){
-                if(primaMossa)
-                    primaMossa=0;
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            if( xN!=x ){
-                //Non posso spostarmi di più di 1 in orizzontale.
-                if( abs(x-xN)>1 ){
-                    printf("\nNon puoi posizionare il pedone lì.\n\n");
-                    return -1;
-                }
-                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
-                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
-                    printf("\nNon puoi posizionare il pedone lì.\n\n");
-                    return -1;
-                }
-            }
-
-            //Cambio logicamente le coordinate.
-            x=xN;
-            y=yN;
-/*
-            if( yN==0 ){
-                int scelta;
-                do{
-                    printf("\nScegli cosa far diventare il tuo pedone tra: nulla(0) ♖(1) ♘(2) ♗(3) ♕(4).\n\n");
-                    scanf("%d", &scelta);
-                }while( scelta<0 || scelta>4 );
-
-                switch( scelta ){
-                    case 0:
-                        printf("\nRimani un pedone.\n\n");
-                        break;
-
-                    case 1:
-                        struct torre t
-
-
-                        break;
-
-                    case 2:
-                        promozionePedoneCavallo(x, y);
-                        break;
-
-                    case 3:
-                        promozionePedoneAlfiere(x, y);
-                        break;
-
-                    case 4:
-                        promozionePedoneRegina(x, y);
-                        break;
-
-                    case default:
-                        printf("\nERRORE!!!\nNon hai scelto nulla.\n\n");
-                        break;
-                }
-            }
-*///!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            return 0;
-        }else{
-        //TURNO NERO========================================================
-            if( xN==x && yN==y ){
-                printf("\nStessa posizione della partenza.\n\n");
-                return -2;
-            }
-
-            //Non puoi non andare avanti
-            if( yN==y ){
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            //Non può andare più indietro di dov'è
-            if( y>yN ){
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            //Se si sposta di più di 1 in verticale da errore
-            if( abs(yN-y)>1+primaMossa){
-                if(primaMossa)
-                    primaMossa=0;
-                printf("\nNon puoi posizionare il pedone lì.\n\n");
-                return -1;
-            }
-
-            if( xN!=x ){
-                //Non posso spostarmi di più di 1 in orizzontale.
-                if( abs(x-xN)>1 ){
-                    printf("\nNon puoi posizionare il pedone lì.\n\n");
-                    return -1;
-                }
-                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
-                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
-                    printf("\nNon puoi posizionare il pedone lì.\n\n");
-                    return -1;
-                }
-            }
-
-            //Cambio logicamente le coordinate.
-            x=xN;
-            y=yN;
-
-            //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-            return 0;
-        }
-
-    }
-
-    int moveLogico(int xN, int yN, string scacc[][8], int turno){
-
-        if( turno==0 ){
-        //TURNO BIANCO======================================================
-            if( xN==x && yN==y ){
-                return -2;
-            }
-
-            //Non puoi non andare avanti
-            if( yN==y ){
-                return -1;
-            }
-
-            //Non può andare più indietro di dov'è
-            if( y<yN ){
-                return -1;
-            }
-
-            //Se si sposta di più di 1 in verticale da errore
-            if( abs(yN-y)>1+primaMossa){
-                return -1;
-            }
-
-            if( xN!=x ){
-                //Non posso spostarmi di più di 1 in orizzontale.
-                if( abs(x-xN)>1 ){
-                    return -1;
-                }
-                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
-                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
-                    return -1;
-                }
-            }
-
-            return 1;
-        }else{
-        //TURNO NERO========================================================
-            if( xN==x && yN==y ){
-                return -2;
-            }
-
-            //Non puoi non andare avanti
-            if( yN==y ){
-                return -1;
-            }
-
-            //Non può andare più indietro di dov'è
-            if( y>yN ){
-                return -1;
-            }
-
-            //Se si sposta di più di 1 in verticale da errore
-            if( abs(yN-y)>1+primaMossa){
-                return -1;
-            }
-
-            if( xN!=x ){
-                //Non posso spostarmi di più di 1 in orizzontale.
-                if( abs(x-xN)>1 ){
-                    return -1;
-                }
-                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
-                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
-                    return -1;
-                }
-            }
-
-            return 1;
-        }
-
-    }
-};
-
 struct torre{
     string pezzo;
     int x;
@@ -316,6 +98,10 @@ struct torre{
         //Cambio logicamente le coordinate.
         x=xN;
         y=yN;
+
+        if( mosso==0 )
+            mosso=1;
+
         return 0;
     }
 
@@ -829,6 +615,826 @@ struct regina{
     }
 };
 
+struct pedone{
+
+    string pezzo;
+    int promosso=0; // 0=pedone, 1=torre, 2=cavallo, 3=alfiere, 4=regina
+
+    int primaMossa=1;
+    int x;
+    int y;
+
+    int move(int xN, int yN, string scacc[][8], int turno){
+        switch( promosso ){
+        case 0:
+            //PEDONE
+            if( turno==0 ){
+                    //TURNO BIANCO======================================================
+                if( xN==x && yN==y ){
+                    printf("\nStessa posizione della partenza.\n\n");
+                    return -2;
+                }
+
+                //Non puoi non andare avanti
+                if( yN==y ){
+                    printf("\nNon puoi posizionare il pedone lì.\n\n");
+                    return -1;
+                }
+
+                //Non può andare più indietro di dov'è
+                if( y<yN ){
+                    printf("\nNon puoi posizionare il pedone lì.\n\n");
+                    return -1;
+                }
+
+                //Se si sposta di più di 1 in verticale da errore
+                if( abs(yN-y)>1+primaMossa){
+                    printf("\nNon puoi posizionare il pedone lì.cacca\n\n");
+                    return -1;
+                }
+
+                if( xN!=x ){
+                    //Non posso spostarmi di più di 1 in orizzontale.
+                    if( abs(x-xN)>1 ){
+                        printf("\nNon puoi posizionare il pedone lì.\n\n");
+                        return -1;
+                    }
+                    //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
+                    if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
+                        printf("\nNon puoi posizionare il pedone lì.\n\n");
+                        return -1;
+                    }
+                }
+
+                if(primaMossa)
+                    primaMossa=0;
+
+                if( yN==0 ){
+                    printf("\nChe cosa vuoi che diventi questo pedone? (0=Pedone, 1=Torre, 2=Cavallo, 3=Alfiere, 4=Regina) ");
+                    scanf("%d", &promosso);
+                    switch( promosso ){
+                        case 0:
+                            break;
+                        case 1:
+                            scacc[y][x]="♖";
+                            break;
+                        case 2:
+                            scacc[y][x]="♘";
+                            break;
+                        case 3:
+                            scacc[y][x]="♗";
+                            break;
+                        case 4:
+                            scacc[y][x]="♕";
+                            break;
+                        default:
+                            printf("\nErrore.\n\n");
+                            return -1;
+                    }
+                }
+
+                //Cambio logicamente le coordinate.
+                x=xN;
+                y=yN;
+
+                return 0;
+            }else{
+        //TURNO NERO========================================================
+            if( xN==x && yN==y ){
+                printf("\nStessa posizione della partenza.\n\n");
+                return -2;
+            }
+
+            //Non puoi non andare avanti
+            if( yN==y ){
+                printf("\nNon puoi posizionare il pedone lì.\n\n");
+                return -1;
+            }
+
+            //Non può andare più indietro di dov'è
+            if( y>yN ){
+                printf("\nNon puoi posizionare il pedone lì.\n\n");
+                return -1;
+            }
+
+            //Se si sposta di più di 1 in verticale da errore
+            if( abs(yN-y)>1+primaMossa){
+                printf("\nNon puoi posizionare il pedone lì.\n\n");
+                return -1;
+            }
+
+            if( xN!=x ){
+                //Non posso spostarmi di più di 1 in orizzontale.
+                if( abs(x-xN)>1 ){
+                    printf("\nNon puoi posizionare il pedone lì.\n\n");
+                    return -1;
+                }
+                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
+                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
+                    printf("\nNon puoi posizionare il pedone lì.\n\n");
+                    return -1;
+                }
+            }
+
+            if( primaMossa )
+                primaMossa=0;
+
+            if( yN==7 ){
+                printf("\nChe cosa vuoi che diventi questo pedone? (0=Pedone, 1=Torre, 2=Cavallo, 3=Alfiere, 4=Regina) \n\n");
+                scanf("%d", &promosso);
+                switch( promosso ){
+                    case 0:
+                        break;
+                    case 1:
+                        scacc[y][x]="♜";
+                        break;
+                    case 2:
+                        scacc[y][x]="♞";
+                        break;
+                    case 3:
+                        scacc[y][x]="♝";
+                        break;
+                    case 4:
+                        scacc[y][x]="♛";
+                        break;
+                    default:
+                        printf("\nErrore.\n\n");
+                        return -1;
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+
+            return 0;
+        }
+        case 1:
+            //TORRE
+            if( xN==x && yN==y ){
+                printf("\nStessa posizione della partenza.\n\n");
+                return -2;
+            }
+
+            //Non è in linea retta x o y
+            if( xN!=x && yN!=y ){
+                printf("\nNon puoi posizionare la torre lì.\n\n");
+                return -1;
+            }
+
+            //Trovo gli ostacoli in verticale
+            if(xN==x && yN!=y ){
+                if( y<yN ){
+                    for(int i=y+1; i<yN; i++){
+                        if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=yN+1; i<y; i++){
+                        if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Trovo gli ostacoli in orizzontale
+            if(xN!=x && yN==y ){
+                if( x<xN ){
+                    for(int i=x+1; i<xN; i++){
+                        if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=xN+1; i<x; i++){
+                        if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+            if( turno ){
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziNeri[i] ){
+                        printf("\nC'è un pezzo nero.\n\n");
+                        return -1;
+                    }
+                }
+            }else{
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziBianchi[i] ){
+                        printf("\nC'è un pezzo bianco.\n\n");
+                        return -1;
+                    }
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+
+            return 0;
+        case 2:
+            //CAVALLO
+            if( xN==x && yN==y ){
+                printf("\nStessa posizione della partenza.\n\n");
+                return -2;
+            }
+
+            if( (abs(x-xN)==2 && abs(y-yN)==1) || (abs(x-xN)==1 && abs(y-yN)==2) ){
+
+                //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+                if( turno ){
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziNeri[i] ){
+                            printf("\nC'è un pezzo nero.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziBianchi[i] ){
+                            printf("\nC'è un pezzo bianco.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+
+                //Cambio logicamente le coordinate
+                x=xN;
+                y=yN;
+                return 0;
+            }
+
+            printf("\nNon puoi posizionare il cavallo lì.\n\n");
+            return -1;
+        case 3:
+            //ALFIERE
+            if( xN==x && yN==y ){
+                printf("\nStessa posizione della partenza.\n\n");
+                return -2;
+            }
+
+            //Se non si muove diagonalmente
+            if( xN==x || yN==y ){
+                printf("\nNon puoi posizionare l'alfiere lì.\n\n");
+                return -1;
+            }
+
+            //Deve essere un triangolo rettangolo
+            if( abs(x-xN) != abs(y-yN) ){
+                printf("\nNon puoi posizionare l'alfiere lì.\n\n");
+                return -1;
+            }
+
+            if( x<xN ){
+                if( y>yN ){
+                    //Alto a dx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y-i][x+i]!="□" && scacc[y-i][x+i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    //Basso a dx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y+i][x+i]!="□" && scacc[y+i][x+i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+            }else{
+                if( y>yN ){
+                    //Alto a sx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y-i][x-i]!="□" && scacc[y-i][x-i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    //Basso a sx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y+i][x-i]!="□" && scacc[y+i][x-i]!="■" ){
+                            printf("\nC'è un ostacolo.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+            if( turno ){
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziNeri[i] ){
+                        printf("\nC'è un pezzo nero.\n\n");
+                        return -1;
+                    }
+                }
+            }else{
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziBianchi[i] ){
+                        printf("\nC'è un pezzo bianco.\n\n");
+                        return -1;
+                    }
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+            return 0;
+        case 4:
+            //REGINA
+            if( xN==x && yN==y ){
+                printf("\nStessa posizione della partenza.\n\n");
+                return -2;
+            }
+
+            //Stessa x ma y diversa, viceversa (quindi gli assi), deve essere diagonale
+            if( (xN==x && yN!=y) || (xN!=x && yN==y) || (abs(x-xN)==abs(y-yN)) ){
+
+                //Trovo gli ostacoli in verticale
+                if(xN==x && yN!=y ){
+                    if( y<yN ){
+                        for(int i=y+1; i<yN; i++){
+                            if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }else{
+                        for(int i=yN+1; i<y; i++){
+                            if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                //Trovo gli ostacoli in orizzontale
+                if(xN!=x && yN==y ){
+                    if( x<xN ){
+                        for(int i=x+1; i<xN; i++){
+                            if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }else{
+                        for(int i=xN+1; i<x; i++){
+                            if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                if( x<xN ){
+                    if( y>yN ){
+                        //Alto a dx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y-i][x+i]!="□" && scacc[y-i][x+i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }else{
+                        //Basso a dx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y+i][x+i]!="□" && scacc[y+i][x+i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }
+                }else{
+                    if( y>yN ){
+                        //Alto a sx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y-i][x-i]!="□" && scacc[y-i][x-i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }else{
+                        //Basso a sx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y+i][x-i]!="□" && scacc[y+i][x-i]!="■" ){
+                                printf("\nC'è un ostacolo.\n\n");
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+                if( turno ){
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziNeri[i] ){
+                            printf("\nC'è un pezzo nero.\n\n");
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziBianchi[i] ){
+                            printf("\nC'è un pezzo bianco.\n\n");
+                            return -1;
+                        }
+                    }
+                }
+
+                //Cambio logicamente le coordinate.
+                x=xN;
+                y=yN;
+                return 0;
+            }
+
+            printf("\nNon puoi posizionare la regina lì.\n\n");
+            return -1;
+        default:
+            printf("\nErrore.\n\n");
+            return -1;
+        }
+    }
+
+    int moveLogico(int xN, int yN, string scacc[][8], int turno){
+        switch( promosso ){
+        case 0:
+            //PEDONE
+            if( turno==0 ){
+                    //TURNO BIANCO======================================================
+                if( xN==x && yN==y ){
+                    return -2;
+                }
+
+                //Non puoi non andare avanti
+                if( yN==y ){
+                    return -1;
+                }
+
+                //Non può andare più indietro di dov'è
+                if( y<yN ){
+                    return -1;
+                }
+
+                //Se si sposta di più di 1 in verticale da errore
+                if( abs(yN-y)>1+primaMossa){
+                    return -1;
+                }
+
+                if( xN!=x ){
+                    //Non posso spostarmi di più di 1 in orizzontale.
+                    if( abs(x-xN)>1 ){
+                        return -1;
+                    }
+                    //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
+                    if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
+                        return -1;
+                    }
+                }
+
+                //Cambio logicamente le coordinate.
+                x=xN;
+                y=yN;
+
+                return 0;
+            }else{
+        //TURNO NERO========================================================
+            if( xN==x && yN==y ){
+                return -2;
+            }
+
+            //Non puoi non andare avanti
+            if( yN==y ){
+                return -1;
+            }
+
+            //Non può andare più indietro di dov'è
+            if( y>yN ){
+                return -1;
+            }
+
+            //Se si sposta di più di 1 in verticale da errore
+            if( abs(yN-y)>1+primaMossa){
+                return -1;
+            }
+
+            if( xN!=x ){
+                //Non posso spostarmi di più di 1 in orizzontale.
+                if( abs(x-xN)>1 ){
+                    return -1;
+                }
+                //Non posso spostarmi in orizzontale se non c'è qualcosa da mangiare.
+                if( scacc[yN][xN]=="■" || scacc[yN][xN]=="□" ){
+                    return -1;
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+
+            return 0;
+        }
+        case 1:
+            //TORRE
+            if( xN==x && yN==y ){
+                return -2;
+            }
+
+            //Non è in linea retta x o y
+            if( xN!=x && yN!=y ){
+                return -1;
+            }
+
+            //Trovo gli ostacoli in verticale
+            if(xN==x && yN!=y ){
+                if( y<yN ){
+                    for(int i=y+1; i<yN; i++){
+                        if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=yN+1; i<y; i++){
+                        if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Trovo gli ostacoli in orizzontale
+            if(xN!=x && yN==y ){
+                if( x<xN ){
+                    for(int i=x+1; i<xN; i++){
+                        if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=xN+1; i<x; i++){
+                        if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+            if( turno ){
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziNeri[i] ){
+                        return -1;
+                    }
+                }
+            }else{
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziBianchi[i] ){
+                        return -1;
+                    }
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+
+            return 0;
+        case 2:
+            //CAVALLO
+            if( xN==x && yN==y ){
+                return -2;
+            }
+
+            if( (abs(x-xN)==2 && abs(y-yN)==1) || (abs(x-xN)==1 && abs(y-yN)==2) ){
+
+                //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+                if( turno ){
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziNeri[i] ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziBianchi[i] ){
+                            return -1;
+                        }
+                    }
+                }
+
+                //Cambio logicamente le coordinate
+                x=xN;
+                y=yN;
+                return 0;
+            }
+
+            return -1;
+        case 3:
+            //ALFIERE
+            if( xN==x && yN==y ){
+                return -2;
+            }
+
+            //Se non si muove diagonalmente
+            if( xN==x || yN==y ){
+                return -1;
+            }
+
+            //Deve essere un triangolo rettangolo
+            if( abs(x-xN) != abs(y-yN) ){
+                return -1;
+            }
+
+            if( x<xN ){
+                if( y>yN ){
+                    //Alto a dx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y-i][x+i]!="□" && scacc[y-i][x+i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    //Basso a dx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y+i][x+i]!="□" && scacc[y+i][x+i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }
+            }else{
+                if( y>yN ){
+                    //Alto a sx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y-i][x-i]!="□" && scacc[y-i][x-i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    //Basso a sx
+                    for(int i=1; i<abs(xN-x); i++){
+                        if( scacc[y+i][x-i]!="□" && scacc[y+i][x-i]!="■" ){
+                            return -1;
+                        }
+                    }
+                }
+            }
+
+            //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+            if( turno ){
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziNeri[i] ){
+                        return -1;
+                    }
+                }
+            }else{
+                for(int i=0; i<6; i++){
+                    //Se trovo un pezzo alleato non faccio nulla
+                    if( scacc[yN][xN]==pezziBianchi[i] ){
+                        return -1;
+                    }
+                }
+            }
+
+            //Cambio logicamente le coordinate.
+            x=xN;
+            y=yN;
+            return 0;
+        case 4:
+            //REGINA
+            if( xN==x && yN==y ){
+                return -2;
+            }
+
+            //Stessa x ma y diversa, viceversa (quindi gli assi), deve essere diagonale
+            if( (xN==x && yN!=y) || (xN!=x && yN==y) || (abs(x-xN)==abs(y-yN)) ){
+
+                //Trovo gli ostacoli in verticale
+                if(xN==x && yN!=y ){
+                    if( y<yN ){
+                        for(int i=y+1; i<yN; i++){
+                            if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }else{
+                        for(int i=yN+1; i<y; i++){
+                            if( scacc[i][xN]!="□" && scacc[i][xN]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                //Trovo gli ostacoli in orizzontale
+                if(xN!=x && yN==y ){
+                    if( x<xN ){
+                        for(int i=x+1; i<xN; i++){
+                            if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }else{
+                        for(int i=xN+1; i<x; i++){
+                            if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                if( x<xN ){
+                    if( y>yN ){
+                        //Alto a dx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y-i][x+i]!="□" && scacc[y-i][x+i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }else{
+                        //Basso a dx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y+i][x+i]!="□" && scacc[y+i][x+i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }
+                }else{
+                    if( y>yN ){
+                        //Alto a sx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y-i][x-i]!="□" && scacc[y-i][x-i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }else{
+                        //Basso a sx
+                        for(int i=1; i<abs(xN-x); i++){
+                            if( scacc[y+i][x-i]!="□" && scacc[y+i][x-i]!="■" ){
+                                return -1;
+                            }
+                        }
+                    }
+                }
+
+                //Mangio se trovo un pezzo dell'altro nella pos di arrivo
+                if( turno ){
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziNeri[i] ){
+                            return -1;
+                        }
+                    }
+                }else{
+                    for(int i=0; i<6; i++){
+                        //Se trovo un pezzo alleato non faccio nulla
+                        if( scacc[yN][xN]==pezziBianchi[i] ){
+                            return -1;
+                        }
+                    }
+                }
+
+                //Cambio logicamente le coordinate.
+                x=xN;
+                y=yN;
+                return 0;
+            }
+
+            return -1;
+        default:
+            return -1;
+        }
+    }
+};
+
 struct re{
     string pezzo;
     int x;
@@ -842,13 +1448,6 @@ struct re{
         if( xN==x && yN==y ){
             printf("\nStessa posizione della partenza.\n\n");
             return -2;
-        }
-
-        if( scacco ){
-            if( isReachable(xN, yN)==0 ){
-                printf("\nIl tuo re è sotto scacco, non puoi metterlo qui.\n\n");
-                return -1;
-            }
         }
 
         //Se è più lontano di 1 passo è sbagliato
@@ -879,6 +1478,9 @@ struct re{
         //Cambio logicamente le coordinate.
         x=xN;
         y=yN;
+
+        if( mosso==0 )
+            mosso=1;
 
         return 0;
     }
@@ -911,6 +1513,34 @@ struct re{
         }
 
         return 1;
+    }
+
+    int arrocco(int xN, int yN, string scacc[][8], int turno){
+        if( scacco ){
+            printf("\nSei sotto scacco, non puoi fare l'arrocco.\n\n");
+            return -1;
+        }
+
+        if( x<xN ){
+            for(int i=5; i<7; i++){
+                if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                    printf("\nC'è un ostacolo.\n\n");
+                    return -1;
+                }
+            }
+        }else{
+            for(int i=1; i<4; i++){
+                if( scacc[yN][i]!="□" && scacc[yN][i]!="■" ){
+                    printf("\nC'è un ostacolo.\n\n");
+                    return -1;
+                }
+            }
+        }
+
+        x=xN;
+        y=yN;
+        
+        return 0;
     }
 };
 
@@ -1059,9 +1689,11 @@ if(1){
             }while( (arrivo[0]<'A' || arrivo[0]>'H') || (arrivo[1]<'1' || arrivo[1]>'8') );
 
             risposta = muoviPezzo(daMuovere, arrivo);
-
-            s.Kn.scacco=isReachable(s.Kn.x, s.Kn.y);
-            s.Kb.scacco=isReachable(s.Kb.x, s.Kb.y);
+            
+            if( s.turno )
+                s.Kb.scacco=isReachable(s.Kb.x, s.Kb.y);
+            else   
+                s.Kn.scacco=isReachable(s.Kn.x, s.Kn.y);
 
             if( s.Kb.scacco )
                 printf("\nIl re bianco è sotto scacco!!\n\n");
@@ -1195,8 +1827,6 @@ int muoviPezzo(char posDaMuovere[], char posArrivo[]){
     //Variabile che tiene i responso della funzione move.
     int risposta;
 
-
-
         //Controllo le coordinate per capire quale pezzo voglio muovere, e poi lo muovo.
         if(s.turno){
             if( s.Pn1.x==x && s.Pn1.y==y ){
@@ -1242,8 +1872,27 @@ int muoviPezzo(char posDaMuovere[], char posArrivo[]){
                 risposta=s.Qn.move(xN, yN, s.scacc, s.turno);
 
             }else if( s.Kn.x==x && s.Kn.y==y ){
-                risposta=s.Kn.move(xN, yN, s.scacc, s.turno);
-
+                //Se è più lontano di 1 passo controllo se è arrocco
+                if( y==yN && abs(x-xN)==2 ){
+                    risposta=s.Kn.arrocco(xN, yN, s.scacc, s.turno);
+                    if( risposta==0 ){
+                        if( x<xN ){
+                            s.Tn2.x=5;
+                            // Sposto graficamente il pezzo.
+                            s.scacc[0][5] = s.Tn2.pezzo;
+                            // Casella vuota nella posizione precedente.
+                            s.move(7, 0); 
+                        }else{
+                            s.Tn1.x=3;
+                            // Sposto graficamente il pezzo.
+                            s.scacc[0][3] = s.Tn1.pezzo;
+                            // Casella vuota nella posizione precedente.
+                            s.move(0, 0); 
+                        }
+                    }
+                }else{
+                    risposta=s.Kn.move(xN, yN, s.scacc, s.turno);
+                }
             }else{
                 printf("\nNon hai selezionato nulla.\n\n");
                 return -1;
@@ -1295,8 +1944,28 @@ int muoviPezzo(char posDaMuovere[], char posArrivo[]){
                 risposta=s.Qb.move(xN, yN, s.scacc, s.turno);
 
             }else if( s.Kb.x==x && s.Kb.y==y ){
-                risposta=s.Kb.move(xN, yN, s.scacc, s.turno);
-
+                printf("\n\nSTAI FACENDO ARROCCOGAY\n\n");
+                //Se è più lontano di 1 passo controllo se è arrocco
+                if( y==yN && abs(x-xN)==2 ){
+                    risposta=s.Kb.arrocco(xN, yN, s.scacc, s.turno);
+                    if( risposta==0 ){
+                        if( x<xN ){
+                            s.Tb2.x=5;
+                            // Sposto graficamente il pezzo.
+                            s.scacc[7][5] = s.Tb2.pezzo;
+                            // Casella vuota nella posizione precedente.
+                            s.move(7, 7); 
+                        }else{
+                            s.Tb1.x=3;
+                            // Sposto graficamente il pezzo.
+                            s.scacc[7][3] = s.Tb1.pezzo;
+                            // Casella vuota nella posizione precedente.
+                            s.move(0, 7); 
+                        }
+                    }
+                }else{
+                    risposta=s.Kb.move(xN, yN, s.scacc, s.turno);
+                }
             }else{
                 printf("\nNon hai selezionato nulla.\n\n");
                 return -1;
@@ -1336,10 +2005,11 @@ int isReachable(int x, int y){
 
         //Torri
         if( s.Tn1.moveLogico(x, y, s.scacc, s.turno)==1 )
-            return 1;
+        return 1;
 
         if( s.Tn2.moveLogico(x, y, s.scacc, s.turno)==1 )
-            return 1;
+        return 1;
+
 
         //Alfieri
         if( s.An1.moveLogico(x, y, s.scacc, s.turno)==1 )
@@ -1348,6 +2018,7 @@ int isReachable(int x, int y){
         if( s.An2.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
 
+
         //Cavalli
         if( s.Cn1.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
@@ -1355,9 +2026,11 @@ int isReachable(int x, int y){
         if( s.Cn2.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
 
+
         //Regina
         if( s.Qn.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
+
 
         //Re
         if( s.Kn.moveLogico(x, y, s.scacc, s.turno)==1 )
@@ -1397,6 +2070,7 @@ int isReachable(int x, int y){
         if( s.Tb2.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
 
+
         //Alfieri
         if( s.Ab1.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
@@ -1416,6 +2090,7 @@ int isReachable(int x, int y){
         //Regina
         if( s.Qb.moveLogico(x, y, s.scacc, s.turno)==1 )
             return 1;
+
 
         //Re
         if( s.Kb.moveLogico(x, y, s.scacc, s.turno)==1 )
